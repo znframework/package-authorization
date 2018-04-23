@@ -56,6 +56,39 @@ class PermissionExtends
     }
 
     /**
+     * Get permission rules
+     * 
+     * @param int|string $ruleId = NULL
+     * 
+     * @return array|string
+     */
+    protected static function permRules($roleId = NULL, $config)
+    {
+        return self::nopermRules($roleId, $config, 'perm');
+    }
+
+    /**
+     * Get no permission rules
+     * 
+     * @param int|string $ruleId = NULL
+     * 
+     * @return array|string
+     */
+    protected static function nopermRules($roleId = NULL, $config = '', $ptype = 'noperm')
+    {
+        $rules = self::getConfigByType($config);
+
+        $roleId = $roleId ?? self::$roleId;
+
+        if( is_array($return = ($rules[$roleId] ?? NULL)) )
+        {
+            return $return[$ptype];
+        }
+
+        return $return;
+    }
+
+    /**
      * Permission Common
      * 
      * @param mixed $roleId  = 6
@@ -67,8 +100,7 @@ class PermissionExtends
      */
     protected static function common($roleId = 6, $process, $object, $function)
     {
-        self::$permission = Config::default('ZN\Authorization\AuthorizationDefaultConfiguration')
-                                  ::get('Authorization', $function);
+        self::$permission = self::getConfigByType($function);
 
         if( isset(self::$permission[$roleId]) )
         {
@@ -150,5 +182,13 @@ class PermissionExtends
         }
 
         return strpos($currentUrl, $page) > -1;
+    }
+
+    /**
+     * Protected get config by type
+     */
+    protected static function getConfigByType($type)
+    {
+        return Config::default('ZN\Authorization\AuthorizationDefaultConfiguration')::get('Authorization', $type);
     }
 }

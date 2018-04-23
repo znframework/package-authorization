@@ -71,4 +71,28 @@ class Process extends PermissionExtends
 
         return self::common($roleId, $process, $object, 'process');
     }
+
+    /**
+     * Page permission rules
+     * 
+     * @param string|int $roleId = NULL
+     * 
+     * @return string|array
+     */
+    public static function getPermRules($roleId = NULL)
+    {
+        return self::permRules($roleId, 'process');
+    }
+
+    /**
+     * Page no permission rules
+     * 
+     * @param string|int $roleId = NULL
+     * 
+     * @return string|array
+     */
+    public static function getNopermRules($roleId = NULL)
+    {
+        return self::noPermRules($roleId, 'process');
+    }
 }
