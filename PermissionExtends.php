@@ -92,17 +92,11 @@ class PermissionExtends
     
         switch( $rules ?? NULL )
         {
-            case 'all' :
-                return $object;
-            break;
-
-            case 'any' :
-                return false;
-            break;
+            case 'all': return $object;
+            case 'any': return false;
         }  
         
-        $pages = current($rules);
-        $type  = key($rules);
+        $pages = current($rules); $type = key($rules);
 
         foreach( $pages as $page )
         {
@@ -114,11 +108,11 @@ class PermissionExtends
             {
                 if( self::control($currentUrl, $rule, $process, $function) )
                 {
-                        return $object;
+                    return $object;
                 }
                 else
                 {
-                        self::$result = false;
+                    self::$result = false;
                 }
             }
             else
@@ -126,11 +120,11 @@ class PermissionExtends
 
                 if( self::control($currentUrl, $rule, $process, $function) )
                 {
-                        return false;
+                   return false;
                 }
                 else
                 {
-                        self::$result = $object;
+                    self::$result = $object;
                 }
             }
         }
