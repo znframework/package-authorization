@@ -20,6 +20,6 @@ class Page extends PermissionExtends
      */
     public static function use($roleId = 6)
     {
-        return self::common(PermissionExtends::$roleId ?? $roleId, NULL, NULL, 'page');
+        return self::common(self::$roleId ?? $roleId, NULL, NULL, 'page');
     }
 }

@@ -57,6 +57,6 @@ class Method extends PermissionExtends
      */
     public static function use($roleId = 6, $method = 'post') : Bool
     {
-        return self::common(PermissionExtends::$roleId ?? $roleId, $method, NULL, 'method');
+        return self::common(self::$roleId ?? $roleId, $method, NULL, 'method');
     }
 }

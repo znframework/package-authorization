@@ -26,10 +26,10 @@ class Permission extends Factory
             'request'        => 'Method::request',
             'method'         => 'Method::use',
             'roleid'         => 'PermissionExtends::roleId',
-            'setpermrules'   => 'PermissionExtends::setPermRules',
-            'setnopermrules' => 'PermissionExtends::setNopermRules',
-            'getpermrules'   => 'PermissionExtends::getPermRules',
-            'getnopermrules' => 'PermissionExtends::getNopermRules'
+            'setpermrules'   => 'RoleRules::setPermRules',
+            'setnopermrules' => 'RoleRules::setNopermRules',
+            'getpermrules'   => 'RoleRules::getPermRules',
+            'getnopermrules' => 'RoleRules::getNopermRules'
         ]
     ];
 }
