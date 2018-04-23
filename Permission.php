@@ -31,7 +31,9 @@ class Permission extends Factory
             'method'             => 'Method::use',
             'methodpermrules'    => 'Method::getPermRules',
             'methodnopermrules'  => 'Method::getNopermRules',
-            'roleid'             => 'PermissionExtends::roleId'
+            'roleid'             => 'PermissionExtends::roleId',
+            'setpermrules'       => 'PermissionExtends::setPermRules',
+            'setnopermrules'     => 'PermissionExtends::setNopermRules'
         ]
     ];
 }

@@ -56,6 +56,44 @@ class PermissionExtends
     }
 
     /**
+     * Set permission rules
+     * 
+     * @param array      $config
+     * @param int|string $ruleId = NULL
+     * 
+     * @return array|string
+     */
+    public static function setPermRules(Array $config, $roleId = NULL, $ptype = 'perm')
+    {
+        $roleId  = $roleId ?? self::$roleId;
+
+        $configs = array_keys(self::getConfigByType(NULL));
+
+        foreach( $configs as $con )
+        {
+            if( isset($config[$con]) )
+            {
+                $newRules[$con] = [$roleId => [$ptype => $config[$con]]];
+            } 
+        }
+
+        Config::set('Authorization', $newRules);
+    }
+
+    /**
+     * Set no permission rules
+     * 
+     * @param array      $config
+     * @param int|string $ruleId = NULL
+     * 
+     * @return array|string
+     */
+    public static function setNopermRules(Array $config, $roleId = NULL)
+    {
+        self::setPermRules($config, $roleId, 'noperm');
+    }
+
+    /**
      * Get permission rules
      * 
      * @param int|string $ruleId = NULL
