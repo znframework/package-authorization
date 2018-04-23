@@ -58,26 +58,6 @@ class PermissionExtends
     }
 
     /**
-     * Protected get json data to databse after convert array
-     */
-    protected static function getJsonDataToDatabaseAfterConvertArray(&$subconfig, $roleId)
-    {
-        if( preg_match('/(\w+)\[(\w+)\]\:(\w+)/', $subconfig, $match) )
-        {
-            $json = Singleton::class('ZN\Database\DB')
-                             ->where($match[2], $roleId)
-                             ->select($match[3])
-                             ->get($match[1])
-                             ->value();
-           
-            if( Json::check($json) )
-            {
-                $subconfig = json_decode($json);
-            }
-        }
-    }
-
-    /**
      * Set permission rules
      * 
      * @param array      $config
@@ -123,25 +103,27 @@ class PermissionExtends
     /**
      * Get permission rules
      * 
+     * @param string     $type   = 'page'
      * @param int|string $ruleId = NULL
      * 
      * @return array|string
      */
-    protected static function permRules($roleId = NULL, $config)
+    public static function getPermRules(String $type = 'page', $roleId = NULL)
     {
-        return self::nopermRules($roleId, $config, 'perm');
+        return self::getNopermRules($type, $roleId, 'perm');
     }
 
     /**
      * Get no permission rules
      * 
+     * @param string     $type   = 'page'
      * @param int|string $ruleId = NULL
      * 
      * @return array|string
      */
-    protected static function nopermRules($roleId = NULL, $config = '', $ptype = 'noperm')
+    public static function getNopermRules(String $type = 'page', $roleId = NULL, $ptype = 'noperm')
     {
-        $rules = self::getConfigByType($config);
+        $rules = self::getConfigByType($type);
 
         $roleId = $roleId ?? self::$roleId;
 
@@ -151,6 +133,26 @@ class PermissionExtends
         }
 
         return $return;
+    }
+
+    /**
+     * Protected get json data to databse after convert array
+     */
+    protected static function getJsonDataToDatabaseAfterConvertArray(&$subconfig, $roleId)
+    {
+        if( preg_match('/(\w+)\[(\w+)\]\:(\w+)/', $subconfig, $match) )
+        {
+            $json = Singleton::class('ZN\Database\DB')
+                             ->where($match[2], $roleId)
+                             ->select($match[3])
+                             ->get($match[1])
+                             ->value();
+           
+            if( Json::check($json) )
+            {
+                $subconfig = json_decode($json);
+            }
+        }
     }
 
     /**

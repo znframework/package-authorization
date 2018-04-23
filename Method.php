@@ -59,28 +59,4 @@ class Method extends PermissionExtends
     {
         return self::common(PermissionExtends::$roleId ?? $roleId, $method, NULL, 'method');
     }
-
-    /**
-     * Page permission rules
-     * 
-     * @param string|int $roleId = NULL
-     * 
-     * @return string|array
-     */
-    public static function getPermRules($roleId = NULL)
-    {
-        return self::permRules($roleId, 'method');
-    }
-
-    /**
-     * Page no permission rules
-     * 
-     * @param string|int $roleId = NULL
-     * 
-     * @return string|array
-     */
-    public static function getNopermRules($roleId = NULL)
-    {
-        return self::noPermRules($roleId, 'method');
-    }
 }

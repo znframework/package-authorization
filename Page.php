@@ -22,28 +22,4 @@ class Page extends PermissionExtends
     {
         return self::common(PermissionExtends::$roleId ?? $roleId, NULL, NULL, 'page');
     }
-
-    /**
-     * Page permission rules
-     * 
-     * @param string|int $roleId = NULL
-     * 
-     * @return string|array
-     */
-    public static function getPermRules($roleId = NULL)
-    {
-        return self::permRules($roleId, 'page');
-    }
-
-    /**
-     * Page no permission rules
-     * 
-     * @param string|int $roleId = NULL
-     * 
-     * @return string|array
-     */
-    public static function getNopermRules($roleId = NULL)
-    {
-        return self::noPermRules($roleId, 'page');
-    }
 }
