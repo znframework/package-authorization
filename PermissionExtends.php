@@ -99,80 +99,43 @@ class PermissionExtends
             case 'any' :
                 return false;
             break;
-        }
+        }  
         
-        if( is_array($rules) )
+        $pages = current($rules);
+        $type  = key($rules);
+
+        foreach( $pages as $page )
         {
-            $pages = current($rules);
-            $type  = key($rules);
+            $page = trim($page);
 
-            foreach( $pages as $page )
+            $rule = strpos($page[0], '!') === 0 ? substr($page, 1) : $page;
+    
+            if( $type === 'perm' )
             {
-                $page = trim($page);
-
-                if( stripos($page[0], '!') === 0 )
+                if( self::control($currentUrl, $rule, $process, $function) )
                 {
-                    $rule = substr(trim($page), 1);
+                        return $object;
                 }
                 else
                 {
-                    $rule = trim($page);
-                }
-
-                if( $type === "perm" )
-                {
-                    if( self::control($currentUrl, $rule, $process, $function) )
-                    {
-                         return $object;
-                    }
-                    else
-                    {
-                         self::$result = false;
-                    }
-                }
-                else
-                {
-
-                    if( self::control($currentUrl, $rule, $process, $function) )
-                    {
-                         return false;
-                    }
-                    else
-                    {
-                         self::$result = $object;
-                    }
-                }
-            }
-
-            return self::$result;
-        }
-        else
-        {
-            if( $rules[0] === "!" )
-            {
-                $page = substr(trim($rules),1);
-            }
-            else
-            {
-                $page = trim($rules);
-            }
-
-            if( self::control($currentUrl, $page, $process, $function) )
-            {
-                if( $rules[0] !== "!" )
-                {
-                    return $object;
-                }
-                else
-                {
-                    return false;
+                        self::$result = false;
                 }
             }
             else
             {
-                return $object;
+
+                if( self::control($currentUrl, $rule, $process, $function) )
+                {
+                        return false;
+                }
+                else
+                {
+                        self::$result = $object;
+                }
             }
         }
+
+        return self::$result;   
     }
 
     /**
