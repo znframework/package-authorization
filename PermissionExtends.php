@@ -11,7 +11,9 @@
 
 use ZN\Base;
 use ZN\Config;
+use ZN\Singleton;
 use ZN\Request\Method;
+use ZN\Protection\Json;
 
 class PermissionExtends
 {
@@ -56,6 +58,26 @@ class PermissionExtends
     }
 
     /**
+     * Protected get json data to databse after convert array
+     */
+    protected static function getJsonDataToDatabaseAfterConvertArray(&$subconfig, $roleId)
+    {
+        if( preg_match('/(\w+)\[(\w+)\]\:(\w+)/', $subconfig, $match) )
+        {
+            $json = Singleton::class('ZN\Database\DB')
+                             ->where($match[2], $roleId)
+                             ->select($match[3])
+                             ->get($match[1])
+                             ->value();
+           
+            if( Json::check($json) )
+            {
+                $subconfig = json_decode($json);
+            }
+        }
+    }
+
+    /**
      * Set permission rules
      * 
      * @param array      $config
@@ -71,9 +93,14 @@ class PermissionExtends
 
         foreach( $configs as $con )
         {
-            if( isset($config[$con]) )
+            if( $subconfig = ($config[$con] ?? NULL) )
             {
-                $newRules[$con] = [$roleId => [$ptype => $config[$con]]];
+                if( is_string($subconfig) )
+                {
+                    self::getJsonDataToDatabaseAfterConvertArray($subconfig, $roleId);
+                }
+
+                $newRules[$con] = [$roleId => [$ptype => $subconfig]];
             } 
         }
 
