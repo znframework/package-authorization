@@ -25,9 +25,9 @@ class RoleRules extends PermissionExtends
      */
     public static function setPermRules(Array $config, $roleId = NULL, $ptype = 'perm')
     {
-        $roleId  = $roleId ?? self::$roleId;
-
-        $configs = array_keys(self::getConfigByType(NULL));
+        $roleId   = $roleId ?? self::$roleId;
+        $configs  = array_keys(self::getConfigByType(NULL));
+        $newRules = [];
 
         foreach( $configs as $con )
         {
