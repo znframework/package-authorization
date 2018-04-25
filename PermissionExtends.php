@@ -111,12 +111,16 @@ class PermissionExtends
         {
             if( $subconfig = ($config[$con] ?? NULL) )
             {
-                if( is_string($subconfig) )
+                if( is_string(self::getJsonDataToDatabaseAfterConvertArray($subconfig, $roleId)) )
                 {
-                    self::getJsonDataToDatabaseAfterConvertArray($subconfig, $roleId);
+                    $add = $subconfig;
+                }
+                else
+                {
+                    $add = [$ptype => $subconfig];
                 }
 
-                $newRules[$con] = [$roleId => [$ptype => $subconfig]];
+                $newRules[$con] = [$roleId => $add];
             } 
         }
 
@@ -291,6 +295,12 @@ class PermissionExtends
             {
                 $subconfig = json_decode($json);
             }
+            else
+            {
+                $subconfig = $json;
+            }      
         }
+
+        return $subconfig;
     }
 }
