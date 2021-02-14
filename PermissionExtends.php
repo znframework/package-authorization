@@ -270,6 +270,8 @@ class PermissionExtends
                 Response::redirect($callback);
             }
         }
+
+        return false;
     }
 
     /**
